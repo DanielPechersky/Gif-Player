@@ -22,14 +22,14 @@ VerticalSide: TypeAlias = Up | Down
 HorizontalSide: TypeAlias = Left | Right
 Side = VerticalSide | HorizontalSide
 
-flipped = {
-    Left(): Right(),
-    Right(): Left(),
+flippedVertically = {
+    Left(): Left(),
+    Right(): Right(),
     Up(): Down(),
     Down(): Up(),
 }
 
-clockwise = {
+rotatedClockwise = {
     Left(): Up(),
     Up(): Right(),
     Right(): Down(),
@@ -62,9 +62,10 @@ class Panel:
 
         coord = Panel.coordinate_within_panel_unadjusted(x)
         side, direction = self.orientation
-        if clockwise[side] != direction:
+        if rotatedClockwise[side] != direction:
             coord = flipVertically(coord)
-            side = flipped[side]
+            side = flippedVertically[side]
+        del direction
         
         rotations = {
             Up(): 3,
